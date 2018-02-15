@@ -1,6 +1,5 @@
 package com.onkviz.otazkykviz;
 
-
 import android.content.Context;
 import android.content.res.AssetManager;
 

@@ -10,6 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.lang.String;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,12 +22,12 @@ public class MainActivity extends AppCompatActivity {
     Button answer1, answer2, answer3, answer4;
 
     TextView score, question;
-
+    QuestionPersister questionPersister = new QuestionPersister();
     private Questions mQuestions = new Questions();
 
     private String mAnswer;
     private int mScore = 0;
-    private int mQuestionLenght = mQuestions.mQuestions.length;
+    private int mQuestionLength = mQuestions.mQuestions.length;
 
     Random r;
 
@@ -43,20 +48,19 @@ public class MainActivity extends AppCompatActivity {
         question = findViewById(R.id.question);
 
         score.setText("Score:" +mScore);
+        try {
+            String jason = QuestionPersister.AssetJSONFile("question.json", this);
+            this.questionPersister.getAllQuestions(jason);
+            updateQuestion(this.questionPersister.getQuestion());
+        } catch (IOException io ) {
 
-        updateQuestion(r.nextInt(mQuestionLenght));
-
+        }
 
         answer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(answer1.getText() ==mAnswer) {
-                    mScore++;
-                    score.setText("Score:" +mScore);
-                    updateQuestion(r.nextInt(mQuestionLenght));
-                } else {
-                    gameOver();
-                }
+                String selected = answer1.getText().toString();
+                check(selected);
 
 
             }
@@ -65,53 +69,59 @@ public class MainActivity extends AppCompatActivity {
         answer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(answer2.getText() ==mAnswer) {
-                    mScore++;
-                    score.setText("Score:" +mScore);
-                    updateQuestion(r.nextInt(mQuestionLenght));
-                } else {
-                    gameOver();
-                }
+                String selected = answer2.getText().toString();
+                check(selected);
             }
         });
 
         answer3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(answer3.getText() ==mAnswer) {
-                    mScore++;
-                    score.setText("Score:" +mScore);
-                    updateQuestion(r.nextInt(mQuestionLenght));
-                } else {
-                    gameOver();
-                }
+                String selected = answer3.getText().toString();
+                check(selected);
             }
         });
 
         answer4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(answer4.getText() ==mAnswer) {
-                    mScore++;
-                    score.setText("Score:" +mScore);
-                    updateQuestion(r.nextInt(mQuestionLenght));
-                } else {
-                    gameOver();
-                }
+                String selected = answer4.getText().toString();
+                check(selected);
             }
         });
 
 
     }
 
-    private void updateQuestion(int num) {
-        question.setText(mQuestions.getQuestion(num));
-        answer1.setText(mQuestions.getChoice1(num));
-        answer2.setText(mQuestions.getChoice2(num));
-        answer3.setText(mQuestions.getChoice3(num));
-        answer4.setText(mQuestions.getChoice4(num));
+    private void check(String selected) {
+        if(selected ==mAnswer) {
+            mScore++;
+            score.setText("Score:" +mScore);
+            Question q = this.questionPersister.getQuestion();
+            updateQuestion(q);
+        } else {
+            gameOver();
+        }
+    }
 
-        mAnswer = mQuestions.getCorrectAnswer(num);
+    private void updateQuestion(Question q) {
+
+        question.setText(q.getQUESTION());
+        List<String> answrs = new ArrayList<String>();
+        String ans = this.questionPersister.getAnswr(q, answrs);
+        answrs.add(ans);
+        answer1.setText(ans);
+        ans = this.questionPersister.getAnswr(q, answrs);
+        answrs.add(ans);
+        answer2.setText(ans);
+        ans = this.questionPersister.getAnswr(q, answrs);
+        answrs.add(ans);
+        answer3.setText(ans);
+        ans = this.questionPersister.getAnswr(q, answrs);
+        answrs.add(ans);
+        answer4.setText(ans);
+
+        mAnswer = q.getANSWER();
 
     }
 
