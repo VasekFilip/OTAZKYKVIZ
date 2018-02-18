@@ -45,7 +45,7 @@ public class QuestionPersister {
                 JSONObject q = qsts.getJSONObject(i);
                 Question quest = new Question();
                 quest.setID(q.getInt("id"));
-                quest.setQUESTION(q.getString("question"));
+                quest.setQUESTION(q.getString("text"));
                 quest.setANSWER(q.getString("answer"));
                 quest.setOPT1(q.getString("opt1"));
                 quest.setOPT2(q.getString("opt2"));
@@ -89,6 +89,8 @@ public class QuestionPersister {
         Random r = new Random();
 
         Question res = null;
+        if (this.questionList.size() == this.dispqst.size())
+            return null;
         do {
             res = this.questionList.get(r.nextInt(this.questionList.size()));
 

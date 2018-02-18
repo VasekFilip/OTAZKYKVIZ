@@ -1,0 +1,32 @@
+{
+  "questions": [
+    {"id": 1,
+      "text": "Which is the first planet in the Solar system?",
+      "opt1": "Mercury",
+      "opt2": "Venus",
+      "opt3": "Mars",
+      "opt4": "Saturn",
+      "answer": "Mercury"
+    },
+    {
+      "id": 2,
+      "text": "Which is the second planet in the Solar system?",
+      "opt1": "Mercury",
+      "opt2": "Venus",
+      "opt3": "Earth",
+      "opt4": "Neptune",
+      "answer": "Venus"
+    },
+    {
+      "id": 3,
+      "text": "Which is the third planet in the Solar system?",
+      "opt1": "Mercury",
+      "opt2": "Jupiter",
+      "opt3": "Earth",
+      "opt4": "Venus",
+      "answer": "Earth"
+    }
+
+  ]
+
+}
